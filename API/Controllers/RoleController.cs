@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
+    [Authorize(Roles = "Admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class RoleController : Controller
@@ -81,6 +83,34 @@ namespace API.Controllers
                 return Ok(new { message = "Role deleted successfully" });
             }
             return BadRequest("Role deletion failed");
+        }
+
+        [HttpPost("assign")]
+
+        public async Task<ActionResult> AssignRole([FromBody] RoleAssignDto RoleAssign)
+        {
+            var user = await _userManager.FindByIdAsync(RoleAssign.UserId);
+
+            if (user is null)
+            {
+                return NotFound("User not found");
+            }
+            var role = await _roleManager.FindByIdAsync(RoleAssign.RoleId);
+
+            if (role is null)
+            {
+                return NotFound("Role not found");
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, role.Name!);
+
+            if (result.Succeeded)
+            {
+                return Ok(new { Message = "Role assigned successfully" });
+            }
+
+            return BadRequest("Role assigned Failed");
+
         }
 
     }

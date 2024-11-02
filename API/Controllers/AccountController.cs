@@ -74,7 +74,7 @@ namespace API.Controllers
                 Message = "Account Created Successfully"
             });
         }
-        
+
         [AllowAnonymous]
 
         [HttpPost("login")]
@@ -144,7 +144,7 @@ namespace API.Controllers
             var token = tokenHandler.CreateToken(tokenDescripter);
             return tokenHandler.WriteToken(token);
         }
-        [Authorize]
+
         [HttpGet("detail")]
         public async Task<ActionResult<UserDetailDto>> GetUserDetail()
         {
@@ -173,6 +173,7 @@ namespace API.Controllers
             });
 
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDetailDto>>> GetUsers()
         {
