@@ -1,0 +1,65 @@
+<div class="flex items-center justify-center h-screen">
+  <form
+    class="w-full p-5 rounded shadow lg:w-1/4"
+    [formGroup]="registerForm"
+    (ngSubmit)="register()"
+  >
+    <div class="mb-3">
+      <h2 class="text-xl font-bold">Register</h2>
+      <p class="text-base text-slate-600">Create your account</p>
+    </div>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" formControlName="email" />
+      <mat-icon matPrefix>email</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Fullname</mat-label>
+      <input matInput placeholder="Fullname" formControlName="fullName" />
+      <mat-icon matPrefix>person</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Roles</mat-label>
+      <mat-select multiple formControlName="roles" *ngFor="let role of $roles">
+      </mat-select>
+      <mat-icon matPrefix>groups</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        placeholder="Password"
+        type="{{ passwordHide ? 'password' : 'text' }}"
+        formControlName="password"
+      />
+      <mat-icon matPrefix>lock</mat-icon>
+      <mat-icon matSuffix (click)="passwordHide = !passwordHide">{{
+        passwordHide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Confirm Password</mat-label>
+      <input
+        matInput
+        type="{{ confirmPwHide ? 'password' : 'text' }}"
+        placeholder="Confirm Password"
+        formControlName="confirmPassword"
+      />
+      <mat-icon matPrefix>lock</mat-icon>
+      <mat-icon matSuffix (click)="confirmPwHide = !confirmPwHide">{{
+        confirmPwHide ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </mat-form-field>
+
+    <button
+      type="submit"
+      class="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+    >
+      Register
+    </button>
+    <div class="my-3">
+      <span>Already have an account?</span>
+      <a routerLink="/login" class="text-blue-700">&nbsp;Login</a>
+    </div>
+  </form>
+</div>
