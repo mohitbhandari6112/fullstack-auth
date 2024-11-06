@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterLink } from '@angular/router';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
@@ -12,7 +13,8 @@ import {
 import { RoleService } from '../../services/role.service';
 import { Observable } from 'rxjs';
 import { Role } from '../../interfaces/role';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +25,9 @@ import { CommonModule } from '@angular/common';
     MatSelectModule,
     RouterLink,
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    AsyncPipe,
+    MatFormFieldModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -38,15 +42,27 @@ export class RegisterComponent implements OnInit {
   $roles!: Observable<Role[]>;
 
   ngOnInit(): void {
-    this.registerForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      fullName: [],
-      password: [''],
-      confirmPassword: [],
-      roles: [''],
-    });
-  }
-  register() {
+    this.registerForm = this.fb.group(
+      {
+        email: ['', [Validators.required, Validators.email]],
+        fullName: ['', [Validators.required]],
+        password: ['', [Validators.required]],
+        confirmPassword: ['', [Validators.required]],
+        roles: [''],
+      },
+      { validator: this.passwordMatchValidator }
+    );
     this.$roles = this.roleService.getRoles();
   }
+  private passwordMatchValidator(control: AbstractControl): {
+    [key: string]: boolean;
+  } | null {
+    const password = control.get('password')?.value;
+    const confirmPw = control.get('confirmPassword')?.value;
+    if (password !== confirmPw) {
+      return { passwordMismatch: true };
+    }
+    return null;
+  }
+  register() {}
 }

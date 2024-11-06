@@ -13,6 +13,7 @@
       <input matInput placeholder="Email" formControlName="email" />
       <mat-icon matPrefix>email</mat-icon>
     </mat-form-field>
+
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Fullname</mat-label>
       <input matInput placeholder="Fullname" formControlName="fullName" />
@@ -20,7 +21,10 @@
     </mat-form-field>
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Roles</mat-label>
-      <mat-select multiple formControlName="roles" *ngFor="let role of $roles">
+      <mat-select multiple formControlName="roles">
+        @for(item of $roles|async;track item){
+        <mat-option [value]="item.roleName">{{ item.roleName }}</mat-option>
+        }
       </mat-select>
       <mat-icon matPrefix>groups</mat-icon>
     </mat-form-field>
@@ -50,10 +54,19 @@
         confirmPwHide ? "visibility_off" : "visibility"
       }}</mat-icon>
     </mat-form-field>
-
+    <span
+      class="block text-base text-red-800"
+      *ngIf="
+        registerForm.hasError('passwordMismatch') &&
+        registerForm.get('confirmPassword')?.dirty &&
+        registerForm.get('confirmPassword')?.touched
+      "
+      >password doesn't match</span
+    >
     <button
+      [disabled]="!registerForm.valid"
       type="submit"
-      class="w-full px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
+      class="w-full px-4 py-2 text-white bg-blue-600 rounded disabled:bg-blue-300"
     >
       Register
     </button>
