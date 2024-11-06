@@ -36,7 +36,7 @@ namespace API.Controllers
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterDto register)
+        public async Task<IActionResult> Register([FromBody] RegisterDto register)
         {
             if (!ModelState.IsValid)
             {
@@ -78,7 +78,7 @@ namespace API.Controllers
         [AllowAnonymous]
 
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto login)
+        public async Task<ActionResult<AuthResponseDto>> Login([FromBody] LoginDto login)
         {
             if (!ModelState.IsValid)
             {

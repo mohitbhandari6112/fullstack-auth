@@ -1,5 +1,13 @@
 <div>
-    <mat-toolbar>
-        
-    </mat-toolbar>
+  <mat-toolbar style="background-color: lightblue">
+    <button mat-icon-button>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a routerLink="/">My App</a>
+    <div class="w-full"></div>
+    <div class="flex gap-3">
+      <a mat-button routerLink="/login">Login</a>
+      <a mat-button href="/register">Register</a>
+    </div>
+  </mat-toolbar>
 </div>

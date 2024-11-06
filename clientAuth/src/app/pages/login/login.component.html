@@ -1,1 +1,41 @@
-<p>login works!</p>
+<div class="flex items-center justify-center h-screen">
+  <form
+    class="w-1/4 p-5 rounded-md shadow-md"
+    [formGroup]="form"
+    (ngSubmit)="login()"
+  >
+    <h2 class="mb-6">Login to your accout</h2>
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="Email" formControlName="email" />
+      <mat-icon matPrefix>email</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        formControlName="password"
+        placeholder="Password"
+        type="{{ hidden ? 'password' : 'text' }}"
+      />
+      <mat-icon matPrefix>lock</mat-icon>
+      <mat-icon (click)="hidden = !hidden" matSuffix>{{
+        hidden ? "visibility_off" : "visibility"
+      }}</mat-icon>
+    </mat-form-field>
+
+    <button
+      [disabled]="!form.valid"
+      class="w-full px-4 py-2 bg-purple-800 rounded text-purple-50 hover:bg-purple-900"
+    >
+      Login
+    </button>
+    <div class="pt-6">
+      <p class="text-slate-700">
+        Doesn't have an accout?
+        <a routerLink="/register" class="text-purple-800">Register</a>
+      </p>
+    </div>
+  </form>
+</div>
