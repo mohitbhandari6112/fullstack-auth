@@ -5,6 +5,8 @@ import { map, Observable } from 'rxjs';
 import { AuthResponse } from '../interfaces/auth-response';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
+import { RegisterRequest } from '../interfaces/register-request';
+import { UserDetail } from '../interfaces/user-detial';
 
 @Injectable({
   providedIn: 'root',
@@ -58,7 +60,14 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem(this.tokenKey);
   }
-  private getToken(): string | null {
+  getToken(): string | null {
     return localStorage.getItem(this.tokenKey) || '';
+  }
+  register(data: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}account/register`, data);
+  }
+
+  getDetails(): Observable<UserDetail> {
+    return this.http.get<UserDetail>(`${this.apiUrl}account/detail`);
   }
 }

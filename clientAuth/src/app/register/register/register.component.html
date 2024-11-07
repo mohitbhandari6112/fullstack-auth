@@ -4,6 +4,9 @@
     [formGroup]="registerForm"
     (ngSubmit)="register()"
   >
+    @for (item of error; track item) {
+    <div class="text-red-700">{{ item.description }}</div>
+    }
     <div class="mb-3">
       <h2 class="text-xl font-bold">Register</h2>
       <p class="text-base text-slate-600">Create your account</p>

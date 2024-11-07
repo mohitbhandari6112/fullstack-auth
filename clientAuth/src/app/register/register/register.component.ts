@@ -15,6 +15,10 @@ import { Observable } from 'rxjs';
 import { Role } from '../../interfaces/role';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { AuthService } from '../../services/auth.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ValidationError } from '../../interfaces/validation-error';
 
 @Component({
   selector: 'app-register',
@@ -28,6 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     CommonModule,
     AsyncPipe,
     MatFormFieldModule,
+    MatSnackBarModule,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -37,9 +42,12 @@ export class RegisterComponent implements OnInit {
   fb = inject(FormBuilder);
   router = inject(Router);
   roleService = inject(RoleService);
+  authService = inject(AuthService);
+  matSnackBar = inject(MatSnackBar);
   confirmPwHide: boolean = true;
   passwordHide: boolean = true;
   $roles!: Observable<Role[]>;
+  error!: ValidationError[];
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -54,6 +62,7 @@ export class RegisterComponent implements OnInit {
     );
     this.$roles = this.roleService.getRoles();
   }
+
   private passwordMatchValidator(control: AbstractControl): {
     [key: string]: boolean;
   } | null {
@@ -64,5 +73,29 @@ export class RegisterComponent implements OnInit {
     }
     return null;
   }
-  register() {}
+
+  register() {
+    this.authService.register(this.registerForm.value).subscribe({
+      next: (res) => {
+        this.matSnackBar.open(res.message, 'CLose', {
+          duration: 5000,
+          horizontalPosition: 'center',
+        });
+        this.router.navigate(['/login']);
+      },
+
+      error: (error: HttpErrorResponse) => {
+        this.error = error.error;
+        if (error.status === 400) {
+          this.matSnackBar.open('validations failed', 'CLose', {
+            duration: 5000,
+            horizontalPosition: 'center',
+          });
+        }
+      },
+      complete() {
+        console.log('registered succesfully');
+      },
+    });
+  }
 }

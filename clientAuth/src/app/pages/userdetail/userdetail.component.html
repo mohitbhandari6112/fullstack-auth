@@ -1,0 +1,26 @@
+<div class="flex items-center justify-center h-screen">
+  <div class="p-5 rounded shadow bg-slate-200">
+    <h2 class="mb-3 text-3xl font-bold">Account details</h2>
+    <div *ngIf="accountDetail$ | async as item">
+      <div class="grid grid-cols-2 gap-3">
+        <div>Full Name</div>
+        <div>{{ item.fullName }}</div>
+        <div>Email</div>
+        <div>{{ item.email }}</div>
+        <div>Roles</div>
+        <ul class="flex items-center gap-1 p-0 m-0">
+          <li
+            class="px-1 text-sm text-white bg-green-600 rounded"
+            *ngFor="let role of item.roles"
+          >
+            {{ role }}
+          </li>
+        </ul>
+        <div>Phone number</div>
+        <div>{{ item.phoneNumber || "-" }}</div>
+        <div>Access Failed Count</div>
+        <div>{{ item.accessFailedCount }}</div>
+      </div>
+    </div>
+  </div>
+</div>
