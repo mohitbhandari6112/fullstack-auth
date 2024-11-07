@@ -70,4 +70,14 @@ export class AuthService {
   getDetails(): Observable<UserDetail> {
     return this.http.get<UserDetail>(`${this.apiUrl}account/detail`);
   }
+
+  getAll(): Observable<UserDetail[]> {
+    return this.http.get<UserDetail[]>(`${this.apiUrl}account`);
+  }
+  getRoles(): string[] | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decodedToken: any = jwtDecode(token);
+    return decodedToken.role || null;
+  }
 }

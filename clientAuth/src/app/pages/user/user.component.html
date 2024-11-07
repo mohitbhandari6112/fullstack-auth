@@ -1,0 +1,23 @@
+<div class="container mx-auto">
+  <h2 class="my-5 text-2xl font-bold text-center">All Users</h2>
+  <div class="rounded shadow">
+    <table class="w-full text-center">
+      <thead>
+        <tr>
+          <th class="px-4 py-2 border">Name</th>
+          <th class="px-4 py-2 border">Emai</th>
+          <th class="px-4 py-2 border">Roles</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of users$|async; track user) {
+        <tr class="border">
+          <td class="px-3 py-1 border">{{ user?.fullName }}</td>
+          <td class="px-3 py-1 border">{{ user?.email }}</td>
+          <td class="px-3 py-1 border">{{ user?.roles || "-" }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

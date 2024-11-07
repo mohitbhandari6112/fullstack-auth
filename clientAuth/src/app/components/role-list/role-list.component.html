@@ -1,0 +1,24 @@
+<div class="w-full">
+  <table class="w-full text-center shadow">
+    <thead>
+      <tr class="border">
+        <th class="px-3">Role Name</th>
+        <th class="px-3">User</th>
+        <th class="px-3">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (role of roles|async; track role) {
+      <tr class="border">
+        <td class="px-3">{{ role.roleName }}</td>
+        <td class="px-3">{{ role.totalUsers }}</td>
+        <td>
+          <button (click)="deleteRole(role.roleId)">
+            <mat-icon click class="text-red-700">delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>

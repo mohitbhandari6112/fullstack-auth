@@ -6,7 +6,7 @@
     <a routerLink="/">My App</a>
     <div class="w-full"></div>
     @if(isLoggedIn()){
-    <div *ngIf="authService.getUserDetail() as userDetail">
+    <div *ngIf="authService.getUserDetail() as userDetail" class="flex gap-3">
       <div
         class="flex flex-col items-center justify-center cursor-pointer"
         [matMenuTriggerFor]="menu"
@@ -27,6 +27,13 @@
           <span>Logout</span>
         </button>
       </mat-menu>
+      <a
+        *ngIf="userDetail.roles.includes('Admin')"
+        mat-button
+        routerLink="/users"
+      >
+        <mat-icon>groups</mat-icon>
+      </a>
     </div>
     }@else{
     <div class="flex gap-3">

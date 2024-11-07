@@ -1,8 +1,12 @@
+import { ManageroleComponent } from './pages/managerole/managerole.component';
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { RegisterComponent } from './register/register/register.component';
 import { UserdetailComponent } from './pages/userdetail/userdetail.component';
+import { authGuard } from './guards/auth.guard';
+import { UserComponent } from './pages/user/user.component';
+import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   {
@@ -20,5 +24,22 @@ export const routes: Routes = [
   {
     path: 'userdetail/:id',
     component: UserdetailComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'users',
+    component: UserComponent,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['Admin'],
+    },
+  },
+  {
+    path: 'roles',
+    component: ManageroleComponent,
+    canActivate: [roleGuard],
+    data: {
+      roles: ['Admin'],
+    },
   },
 ];
