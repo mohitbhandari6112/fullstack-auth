@@ -10,7 +10,34 @@
       />
     </div>
     <div class="w-1/2">
-      <app-role-list />
+      <app-role-list (delete)="deleteRole($event)" [roles]="roles$ | async" />
     </div>
+  </div>
+  <div class="w-1/2 mt-5">
+    <strong class="block text-2xl font-semibold">Assign Roles To User</strong>
+    <mat-form-field class="w-full">
+      <mat-label>User</mat-label>
+      <mat-select [(value)]="selectedUser">
+        @for (user of users$ |async; track user.userId) {
+        <mat-option [value]="user.userId">{{ user.fullName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+      <mat-label>Role</mat-label>
+      <mat-select [(value)]="selectedRole">
+        @for (role of roles$ |async; track role.roleId) {
+        <mat-option [value]="role.roleId">{{ role.roleName }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <button
+      (click)="assignRole()"
+      [disabled]="!selectedRole || !selectedUser"
+      class="px-4 py-2 text-white bg-blue-700 disabled:bg-400"
+    >
+      Assign Role
+    </button>
   </div>
 </div>
