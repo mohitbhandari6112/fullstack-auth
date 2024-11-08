@@ -53,6 +53,7 @@ namespace API.Controllers
 
         }
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RoleResponseDto>>> GetAllRoles()
         {
             var roles = await _roleManager.Roles.Select(r => new RoleResponseDto

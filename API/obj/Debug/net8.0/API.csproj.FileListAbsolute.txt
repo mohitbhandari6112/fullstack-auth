@@ -145,3 +145,4 @@ C:\Users\Acer\Desktop\asp .net core\fullstack(angular+.net)\API\obj\Debug\net8.0
 C:\Users\Acer\Desktop\asp .net core\fullstack(angular+.net)\API\obj\Debug\net8.0\API.pdb
 C:\Users\Acer\Desktop\asp .net core\fullstack(angular+.net)\API\obj\Debug\net8.0\API.genruntimeconfig.cache
 C:\Users\Acer\Desktop\asp .net core\fullstack(angular+.net)\API\obj\Debug\net8.0\ref\API.dll
+C:\Users\Acer\Desktop\asp .net core\fullstack(angular+.net)\API\bin\Debug\net8.0\RestSharp.dll

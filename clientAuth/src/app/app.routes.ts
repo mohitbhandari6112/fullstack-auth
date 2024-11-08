@@ -7,6 +7,8 @@ import { UserdetailComponent } from './pages/userdetail/userdetail.component';
 import { authGuard } from './guards/auth.guard';
 import { UserComponent } from './pages/user/user.component';
 import { roleGuard } from './guards/role.guard';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './pages/forget-password/forget-password.component';
 
 export const routes: Routes = [
   {
@@ -21,6 +23,15 @@ export const routes: Routes = [
     path: 'register',
     component: RegisterComponent,
   },
+  {
+    path:'forget-password',
+    component:ForgetPasswordComponent
+  },
+  {
+    path:'reset-password',
+    component:ResetPasswordComponent
+  }
+
   {
     path: 'userdetail/:id',
     component: UserdetailComponent,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using RestSharp;
 
 namespace API.Controllers
 {
@@ -188,6 +190,57 @@ namespace API.Controllers
 
 
         }
+        [AllowAnonymous]
+        [HttpPost("forgot-password")]
+        public async Task<ActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+            if (user is null)
+            {
+                return Ok(new AuthResponseDto
+                {
+                    Success = false,
+                    Message = "User doesn't exist with given email",
+                });
+            }
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
+            var resetLink = $"http://localhost:4200/reset-password?email={user.Email}&token={WebUtility.UrlEncode(token)}";
+
+            var client = new RestClient("https://send.api.mailtrap.io/api/send");
+            var request = new RestRequest
+            {
+                Method = Method.Post,
+                RequestFormat = DataFormat.Json
+            };
+            request.AddHeader("Authorization", "Bearer 02980c08014725e90cc3fd29f2ed96c0");
+
+            request.AddJsonBody(new
+            {
+                from = new { email = "hello@demomailtrap.com" },
+                to = new[] { new { email = user.Email } },
+                template_uuid = "73c35f47-20fa-4c42-9280-bff1e8425d48",
+                template_variables = new { user_email = user.Email, pass_reset_link = resetLink }
+            });
+            var response = client.Execute(request);
+            if (response.IsSuccessful)
+            {
+                return Ok(new AuthResponseDto
+                {
+                    Success = true,
+                    Message = "Email sent with password reset link. Please Check your email",
+                });
+            }
+            else
+            {
+                return BadRequest(new AuthResponseDto
+                {
+                    Success = false,
+                    Message = response.Content!.ToString()
+                });
+            }
+
+
+        }
     }
 }
