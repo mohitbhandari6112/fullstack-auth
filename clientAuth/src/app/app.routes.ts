@@ -24,13 +24,13 @@ export const routes: Routes = [
     component: RegisterComponent,
   },
   {
-    path:'forget-password',
-    component:ForgetPasswordComponent
+    path: 'forget-password',
+    component: ForgetPasswordComponent,
   },
   {
-    path:'reset-password',
-    component:ResetPasswordComponent
-  }
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+  },
 
   {
     path: 'userdetail/:id',

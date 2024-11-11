@@ -70,6 +70,12 @@ export class AuthService {
   getDetails(): Observable<UserDetail> {
     return this.http.get<UserDetail>(`${this.apiUrl}account/detail`);
   }
+  forgotPassword(email: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}account/forgot-password`,
+      { email }
+    );
+  }
 
   getAll(): Observable<UserDetail[]> {
     return this.http.get<UserDetail[]>(`${this.apiUrl}account`);
