@@ -197,7 +197,7 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
             if (user is null)
             {
-                return Ok(new AuthResponseDto
+                return BadRequest(new AuthResponseDto
                 {
                     Success = false,
                     Message = "User doesn't exist with given email",
@@ -241,6 +241,35 @@ namespace API.Controllers
             }
 
 
+        }
+        [AllowAnonymous]
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
+            if (user is null)
+            {
+                return BadRequest(new AuthResponseDto
+                {
+                    Success = false,
+                    Message = "User doesn't exist with this email"
+                });
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, resetPasswordDto.Token, resetPasswordDto.NewPassword);
+            if (result.Succeeded)
+            {
+                return Ok(new AuthResponseDto
+                {
+                    Success = true,
+                    Message = "Password reset successfully"
+                });
+            }
+            return BadRequest(new AuthResponseDto
+            {
+                Success = false,
+                Message = result.Errors.FirstOrDefault().Description
+            });
         }
     }
 }
