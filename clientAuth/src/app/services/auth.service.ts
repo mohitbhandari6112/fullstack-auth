@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { RegisterRequest } from '../interfaces/register-request';
 import { UserDetail } from '../interfaces/user-detial';
+import { PassswordResetRequest } from '../interfaces/password-reset-request';
 
 @Injectable({
   providedIn: 'root',
@@ -74,6 +75,12 @@ export class AuthService {
     return this.http.post<AuthResponse>(
       `${this.apiUrl}account/forgot-password`,
       { email }
+    );
+  }
+  resetPassword(data: PassswordResetRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.apiUrl}account/reset-password`,
+      data
     );
   }
 

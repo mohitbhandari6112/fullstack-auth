@@ -26,6 +26,10 @@ export class ForgetPasswordComponent {
             duration: 5000,
           });
           this.showEmailSent = true;
+        } else {
+          this.matSnackBar.open(res.message, 'Close', {
+            duration: 5000,
+          });
         }
       },
       error: (err: HttpErrorResponse) => {
