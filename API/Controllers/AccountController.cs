@@ -271,5 +271,35 @@ namespace API.Controllers
                 Message = result.Errors.FirstOrDefault().Description
             });
         }
+        [HttpPost("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto changePasswordDto)
+        {
+
+            var user = await _userManager.FindByEmailAsync(changePasswordDto.Email);
+            if (user is null)
+            {
+                return BadRequest(new AuthResponseDto
+                {
+                    Success = false,
+                    Message = "User not found with the given email"
+                });
+            }
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
+
+            if (result.Succeeded)
+            {
+                return Ok(new AuthResponseDto
+                {
+                    Success = true,
+                    Message = "Password changed successfully"
+                });
+            }
+            return BadRequest(new AuthResponseDto
+            {
+                Success = false,
+                Message = result.Errors.FirstOrDefault().Description ?? "Something went wrong while changing password"
+            });
+
+        }
     }
 }

@@ -3382,11 +3382,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\Acer\\Desktop\\asp .net core\\fullstack(angular+.net)\\API\\API.csproj",
+      "projectUniqueName": "C:\\Users\\Acer\\Desktop\\asp .net core\\fullstack(angular+.net)\\API\\API.csproj",
       "projectName": "API",
-      "projectPath": "c:\\Users\\Acer\\Desktop\\asp .net core\\fullstack(angular+.net)\\API\\API.csproj",
+      "projectPath": "C:\\Users\\Acer\\Desktop\\asp .net core\\fullstack(angular+.net)\\API\\API.csproj",
       "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\Acer\\Desktop\\asp .net core\\fullstack(angular+.net)\\API\\obj\\",
+      "outputPath": "C:\\Users\\Acer\\Desktop\\asp .net core\\fullstack(angular+.net)\\API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Acer\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -3471,7 +3471,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
