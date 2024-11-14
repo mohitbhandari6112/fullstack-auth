@@ -15,7 +15,7 @@ import { RequestChangePassword } from '../interfaces/chnage-password-request';
 })
 export class AuthService {
   apiUrl: string = environment.apiUrl;
-  private tokenKey = 'token';
+  private userKey = 'user';
 
   constructor(private http: HttpClient) {}
 
@@ -25,7 +25,7 @@ export class AuthService {
       .pipe(
         map((response) => {
           if (response.success) {
-            localStorage.setItem(this.tokenKey, response.token);
+            localStorage.setItem(this.userKey, JSON.stringify(response));
           }
           return response;
         })
@@ -55,16 +55,30 @@ export class AuthService {
     if (!token) return true;
     const decode = jwtDecode(token);
     const tokenExpired = Date.now() >= decode['exp']! * 1000;
-    if (tokenExpired) this.logout();
+    // if (tokenExpired) this.logout();
     return tokenExpired;
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.userKey);
   }
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey) || '';
+    const user = localStorage.getItem(this.userKey);
+    if (!user) {
+      return null;
+    }
+    const userDetail: AuthResponse = JSON.parse(user);
+    return userDetail.token;
   }
+  getRefreshToken(): string | null {
+    const user = localStorage.getItem(this.userKey);
+    if (!user) {
+      return null;
+    }
+    const userDetail: AuthResponse = JSON.parse(user);
+    return userDetail.refreshToken;
+  }
+
   register(data: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}account/register`, data);
   }
@@ -94,6 +108,15 @@ export class AuthService {
   getAll(): Observable<UserDetail[]> {
     return this.http.get<UserDetail[]>(`${this.apiUrl}account`);
   }
+
+  refreshToken(data: {
+    email: string;
+    token: string;
+    refreshToken: string;
+  }): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.apiUrl}refresh-token`, data);
+  }
+
   getRoles(): string[] | null {
     const token = this.getToken();
     if (!token) return null;
