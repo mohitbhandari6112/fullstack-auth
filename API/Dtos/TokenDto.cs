@@ -7,8 +7,8 @@ namespace API.Dtos
 {
     public class TokenDto
     {
-        public string? RefreshToken { get; set; }
-        public string? Token { get; set; }
-        public string Email { get; set; } = string.Empty;
+        public string RefreshToken { get; set; } = null!;
+        public string Token { get; set; } = null!;
+        public string Email { get; set; } = null!;
     }
 }

@@ -136,7 +136,7 @@ namespace API.Controllers
             }
             var principle = GetPrincipalFromExpiredToken(tokenDto.Token);
             var user = await _userManager.FindByEmailAsync(tokenDto.Email);
-            if (user is null || principle is null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            if (user is null || principle is null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow )
             {
                 return BadRequest(new AuthResponseDto
                 {
@@ -160,10 +160,9 @@ namespace API.Controllers
             });
 
 
-
         }
 
-        private ClaimsPrincipal GetPrincipalFromExpiredToken(string? token)
+        private ClaimsPrincipal? GetPrincipalFromExpiredToken(string token)
         {
             var tokenParameters = new TokenValidationParameters
             {
